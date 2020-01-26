@@ -1218,7 +1218,7 @@ Function Get-AADUserDetails
 			Write-Error "Unauthorized, Please check your permissions and use the 'Connect-Planner' command to authenticate"
 		}
 		Write-Error "Request to $Uri failed with HTTP Status $($ex.Response.StatusCode) $($ex.Response.StatusDescription)"
-		break
+		return
 	}
 }
 
