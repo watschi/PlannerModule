@@ -1,16 +1,18 @@
 # PlannerModule
+
 PowerShell module for Microsoft Planner
 
-#Examples:
+## Examples
 
+```powershell
 #Check Planner PowerShell module
 
 $PlannerModule = Get-Module -Name "PlannerModule" -ListAvailable
 
 if ($PlannerModule -eq $null)
 {
-	Write-host "Planner PowerShell module not found, Start install the module"
-	Install-Module "PlannerModule" -AllowClobber -Force
+    Write-host "Planner PowerShell module not found, Start install the module"
+    Install-Module "PlannerModule" -AllowClobber -Force
 }
 
 
@@ -63,3 +65,4 @@ Update-PlannerPlanCategories -PlanID $PlannerPlanID -category1 "Kieken" -categor
 
 #Assign Planner Task lables
 Invoke-AssignPlannerTaskCategories -TaskID $PlannerPlanTaskID -category1 $false -category2 $true -category3 $true -category4 $false -category5 $false -category6 $false
+```
