@@ -1188,18 +1188,27 @@ Function Get-AADUserDetails
 {
 	# .ExternalHelp PlannerModule.psm1-Help.xml
 	
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = 'UserPrincipalName')]
 	param
 	(
-		[Parameter(Mandatory = $True)]
-		$UserPrincipalName
+		[Parameter(Mandatory = $True, ParameterSetName = 'UserPrincipalName')]
+		[string]$UserPrincipalName,
+		[Parameter(Mandatory = $True, ParameterSetName = 'UserID')]
+		[Guid]$UserID
 	)
-	
 	
 	try
 	{
-		$uri = "https://graph.microsoft.com/beta/users?`$filter=userPrincipalName eq '$($UserPrincipalName)'"
-		(Invoke-RestMethod -Uri $uri -Headers $authToken -Method GET).value
+		if ($PSCmdlet.ParameterSetName -eq 'UserPrincipalName')
+		{
+			$uri = "https://graph.microsoft.com/beta/users?`$filter=userPrincipalName eq '$($UserPrincipalName)'"
+			(Invoke-RestMethod -Uri $uri -Headers $authToken -Method GET).value
+		} 
+		elseif ($PSCmdlet.ParameterSetName -eq 'UserID') 
+		{
+			$uri = "https://graph.microsoft.com/beta/users/$UserID"
+			Invoke-RestMethod -Uri $uri -Headers $authToken -Method GET
+		}
 	}
 	catch
 	{
